@@ -8,7 +8,7 @@
 
 (function() {
     'use strict';
-    var css = '.remove-post-icon {position: absolute; right: 13px; top: 24px; font-size: 13px;} .ui_actions_menu_icons {right: 40px !important;}',
+    var css = '.remove-post-icon {position: absolute; right: 13px; top: 24px; font-size: 13px;} .feed_wrap .ui_actions_menu_icons {right: 40px !important;}',
         head = document.head || document.getElementsByTagName('head')[0],
         style = document.createElement('style');
 
@@ -41,14 +41,26 @@
     
     // Update posts by adding them on "Load new posts" button click
     document.querySelector('.feed_new_posts').onclick = function(){
+        Feed.showNewPosts();
         updatePosts();
     };
     
     // Update posts by clicking on "News" button in the right menu
     document.getElementById('ui_rmenu_news').onclick = function(){
+        numOfChanges = 10; // Notify observer that the post should be updated
+        nav.go(this, event);
         updatePosts();
+        return false; // dont't reload the page
     };
 
+    // Update posts by clicking on the "News" link in the left menu
+    document.getElementById('l_nwsf').onclick = function(){
+        numOfChanges = 10; // Notify observer that the post should be updated
+        nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});
+        updatePosts();
+        return false; // dont't reload the page
+    };
+    
     // Function for inserting icon to a post
     function addIcon(post) {
         if(post) {
@@ -68,6 +80,7 @@
     // Function for processing posts,
     // adds removing icon and special class to each non-updated post
     function updatePosts() {
+        console.log("Update posts icons");
         var posts = document.getElementsByClassName('feed_row');
         for (var i = 0; i < posts.length; i++) {
             if(!hasClass(posts[i], "with-icon")) {
@@ -80,4 +93,3 @@
         return (" " + element.className + " ").indexOf(" " + cls + " ") > -1;
     }
 })();
-
