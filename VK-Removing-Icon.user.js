@@ -83,7 +83,7 @@
         console.log("Update posts icons");
         var posts = document.getElementsByClassName('feed_row');
         for (var i = 0; i < posts.length; i++) {
-            if(!hasClass(posts[i], "with-icon")) {
+            if(!posts[i].querySelector(".remove-post-icon")) {
                 addIcon(posts[i]);
             }
         }
@@ -93,3 +93,4 @@
         return (" " + element.className + " ").indexOf(" " + cls + " ") > -1;
     }
 })();
+
